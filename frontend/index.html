@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kube Demo</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding-top: 50px; }
+        #message { margin-top: 20px; padding: 15px; background-color: #e0f7fa; border: 1px solid #b2ebf2; display: inline-block; }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Kubernetes Demo App!</h1>
+    <p>This is the frontend served by Nginx.</p>
+    <button onclick="fetchMessage()">Get Message from Backend</button>
+    <div id="message">Click the button to fetch message...</div>
+
+    <script>
+        async function fetchMessage() {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = 'Fetching...';
+            try {
+                // This '/api/message' path will be proxied by Nginx to the backend service
+                const response = await fetch('/api/message');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                messageDiv.textContent = `Message from backend: ${data.message}`;
+            } catch (error) {
+                console.error('Error fetching message:', error);
+                messageDiv.textContent = 'Error fetching message from backend.';
+            }
+        }
+    </script>
+</body>
+</html>

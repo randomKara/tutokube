@@ -1,0 +1,13 @@
+# kube/backend-service.yaml
+apiVersion: v1
+kind: Service # Type of Kubernetes object
+metadata:
+  name: backend-service # Name of the Service (used in frontend nginx.conf)
+spec:
+  type: ClusterIP # Exposes the service on a cluster-internal IP. Default type.
+  selector:
+    app: backend # Selects Pods with the label 'app: backend'
+  ports:
+  - protocol: TCP
+    port: 5000 # Port the Service will listen on
+    targetPort: 5000 # Port the Pods are listening on

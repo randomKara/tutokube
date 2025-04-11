@@ -1,0 +1,18 @@
+# kube/frontend-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  # Type LoadBalancer automatically provisions a cloud load balancer (if on a cloud provider like GKE, EKS, AKS)
+  # If using Minikube or Docker Desktop, you might use 'minikube service frontend-service' or it might map to localhost.
+  # Alternatively, use type: NodePort for simpler local setups.
+  type: LoadBalancer
+  selector:
+    app: frontend # Selects Pods with the label 'app: frontend'
+  ports:
+  - protocol: TCP
+    port: 80 # Port the Service will listen on (external clients connect here)
+    targetPort: 80 # Port the frontend Pods (Nginx) are listening on
+    # If using type: NodePort, you would add a 'nodePort' field here, e.g.:
+    # nodePort: 30007
